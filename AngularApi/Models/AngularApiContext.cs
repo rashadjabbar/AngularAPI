@@ -17,7 +17,6 @@ namespace AngularApi.Models
 
         public virtual DbSet<Documents> Documents { get; set; }
         public virtual DbSet<Order> Order { get; set; }
-        public virtual DbSet<Services> Services { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -47,7 +46,9 @@ namespace AngularApi.Models
 
                 entity.Property(e => e.OrderCusName).HasMaxLength(50);
 
-                entity.Property(e => e.OrderDate).HasColumnType("date");
+                entity.Property(e => e.OrderDate)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.OrderDocId).HasColumnName("OrderDocID");
 
@@ -57,21 +58,7 @@ namespace AngularApi.Models
 
                 entity.Property(e => e.OrderGbnum).HasColumnName("OrderGBNum");
 
-                entity.Property(e => e.OrderServiceId).HasColumnName("OrderServiceID");
-
                 entity.Property(e => e.OrderTrafficType).HasMaxLength(50);
-            });
-
-            modelBuilder.Entity<Services>(entity =>
-            {
-                entity.HasKey(e => e.ServiceId)
-                    .HasName("PK__Services__C51BB0EA51162725");
-
-                entity.Property(e => e.ServiceId).HasColumnName("ServiceID");
-
-                entity.Property(e => e.OrderId).HasColumnName("OrderID");
-
-                entity.Property(e => e.ServiceName).HasMaxLength(50);
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -1,23 +1,19 @@
 ﻿using AngularApi.Abstract;
+using AngularApi.Business.Concrete;
 using AngularApi.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace AngularApi.Concrete
 {
     public class OrderRepository : IOrderRepository
     {
-        public Order CreateOrder(Order order)
-        {
-            using (var orderDbContext = new AngularApiContext())
-            {
-                orderDbContext.Order.Add(order);
-                orderDbContext.SaveChanges();
-                return order;
-            }
-        }
+
+
 
         public void DeleteOrder(int id)
         {
@@ -50,6 +46,16 @@ namespace AngularApi.Concrete
             using (var orderDbContext = new AngularApiContext())
             {
                 orderDbContext.Order.Update(order);
+                orderDbContext.SaveChanges();
+                return order;
+            }
+        }
+
+                public Order CreateOrder(Order order)
+        {
+            using (var orderDbContext = new AngularApiContext())
+            {
+                orderDbContext.Order.Add(order);
                 orderDbContext.SaveChanges();
                 return order;
             }
